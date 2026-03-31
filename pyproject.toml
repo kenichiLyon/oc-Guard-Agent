@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openclaw-agent"
+version = "0.1.0"
+description = "OpenClaw CLI and MCP server for cloud-native incident diagnosis"
+readme = "openclaw/README.md"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["pytest>=9,<10"]
+
+[project.scripts]
+openclaw = "openclaw.cli:run"
+openclaw-agent = "openclaw.cli:run"
+openclaw-mcp = "openclaw.mcp_main:main"
+openclaw-agent-mcp = "openclaw.mcp_main:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+openclaw = ["*.json"]
+
+[tool.setuptools.packages.find]
+include = ["openclaw*"]

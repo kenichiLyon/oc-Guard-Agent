@@ -1,0 +1,45 @@
+{
+  "mock_mode": true,
+  "kubectl_bin": "kubectl",
+  "command_timeout_sec": 15,
+  "http_timeout_sec": 10,
+  "promql_endpoint": "",
+  "log_ql_endpoint": "",
+  "trace_endpoint": "",
+  "runbook_endpoint": "",
+  "mock": {
+    "kubectl": {
+      "get pods -n default -o wide": "NAME READY STATUS RESTARTS AGE\napi-7c5 1/1 Running 0 2d\nworker-99x 0/1 CrashLoopBackOff 12 20m",
+      "describe pod worker-99x -n default": "Containers:\n  worker:\n    State: Waiting\n    Reason: CrashLoopBackOff",
+      "get svc -n default -o wide": "NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S)\napi ClusterIP 10.0.0.10 <none> 8080/TCP",
+      "get endpoints -n default -o wide": "NAME ENDPOINTS AGE\napi 10.1.1.7:8080 2d"
+    },
+    "log_ql": {
+      "default": "2026-03-21T08:10:31Z worker timeout to redis\n2026-03-21T08:10:40Z connect ECONNREFUSED redis:6379"
+    },
+    "promql": {
+      "default": {
+        "error_rate": 0.21,
+        "p95_latency_ms": 1320
+      }
+    },
+    "trace_analyzer": {
+      "default": {
+        "hot_path": "api -> worker -> redis",
+        "failed_span": "redis GET timeout"
+      }
+    },
+    "runbook_search": {
+      "default": [
+        {
+          "title": "Redis依赖超时排障",
+          "steps": [
+            "检查 redis Pod 就绪与重启次数",
+            "核对 NetworkPolicy 与 Service Endpoint",
+            "按依赖降级策略切到本地缓存"
+          ]
+        }
+      ]
+    }
+  }
+}

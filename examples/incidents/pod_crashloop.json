@@ -1,0 +1,12 @@
+{
+  "title": "生产环境 worker 服务抖动",
+  "namespace": "default",
+  "service": "worker",
+  "symptoms": [
+    "CrashLoopBackOff",
+    "timeout",
+    "ECONNREFUSED"
+  ],
+  "time_window_minutes": 30,
+  "suspect_pod": "worker-99x"
+}
