@@ -6,7 +6,7 @@ from .config import load_config, load_incident
 from .diagnosis import diagnose
 
 
-def run(argv=None) -> Dict[str, Any]:
+def build_report(argv=None) -> Dict[str, Any]:
     parser = argparse.ArgumentParser(prog="openclaw")
     parser.add_argument("--config", type=str, default="", help="OpenClaw 配置文件路径")
     parser.add_argument("--incident-file", type=str, default="", help="故障输入 JSON 文件")
@@ -21,3 +21,8 @@ def run(argv=None) -> Dict[str, Any]:
     else:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     return report
+
+
+def run(argv=None) -> int:
+    build_report(argv)
+    return 0

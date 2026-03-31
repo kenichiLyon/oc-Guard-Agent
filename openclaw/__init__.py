@@ -1,3 +1,3 @@
-from .cli import run
+from .cli import build_report, run
 
-__all__ = ["run"]
+__all__ = ["build_report", "run"]
